@@ -16,4 +16,17 @@ const createEducationDetails = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
-export default createEducationDetails;
+
+const deleteEducationDetails = async (req, res) => {
+  try {
+    const education = await Education.findById(req.education.id);
+    if (education) {
+      await education.remove();
+      res.json({ message: "personal info removed" });
+    }
+  } catch (err) {
+    console.lerror(err.message);
+    res.status(404).send("User not Found");
+  }
+};
+export { createEducationDetails, deleteEducationDetails };

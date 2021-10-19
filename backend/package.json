@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
-    "server":"nodemon server.js",
+    "server": "nodemon server.js",
+    "dev": "concurrently \"npm run server\" \"cd ../frontend && npm start \"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^6.3.0",
     "config": "^3.3.6",
     "express": "^4.17.1",
     "mongoose": "^6.0.10",
