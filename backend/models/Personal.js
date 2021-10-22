@@ -3,19 +3,19 @@ import mongoose from "mongoose";
 const personalSchema = new mongoose.Schema({
   name: {
     type: String,
-    // required: true,
+    required: true,
   },
   email: {
     type: String,
-    // required: true,
+    required: true,
   },
   phone: {
     type: String,
-    // required: true,
+    required: true,
   },
   dob: {
     type: String,
-    // required: true,
+    required: true,
   },
   bio: {
     type: String,
@@ -24,6 +24,7 @@ const personalSchema = new mongoose.Schema({
     data: Buffer,
     type: String,
     trim: true,
+    required: true,
   },
   portfolioOf: {
     type: mongoose.Schema.Types.ObjectId,

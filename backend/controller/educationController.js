@@ -17,16 +17,39 @@ const createEducationDetails = async (req, res) => {
   }
 };
 
+const updateEducation = async (req, res) => {
+  const { school, degree, from, to } = req.body;
+  try {
+    const eduInfo = await Education.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          school,
+          degree,
+          from,
+          to,
+        },
+      },
+      { new: true }
+    );
+    if (!eduInfo) return res.status(404).send("Requested info does not exist");
+    res.send(eduInfo);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 const deleteEducationDetails = async (req, res) => {
   try {
-    const education = await Education.findById(req.education.id);
-    if (education) {
-      await education.remove();
-      res.json({ message: "personal info removed" });
+    const education = await Education.findByIdAndDelete(req.params.id);
+    res.json({ message: "education details removed" });
+    if (!education) {
+      res.status(404).send("Requested Info Not Found");
     }
   } catch (err) {
     console.lerror(err.message);
-    res.status(404).send("User not Found");
+    res.status(500).send("Server Error");
   }
 };
-export { createEducationDetails, deleteEducationDetails };
+export { createEducationDetails, deleteEducationDetails, updateEducation };

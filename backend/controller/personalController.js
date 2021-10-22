@@ -29,8 +29,8 @@ const createPersonalDetails = async (req, res) => {
 const updatePersonal = async (req, res) => {
   const { name, email, phone, dob, bio } = req.body;
   const photo = req.file.filename;
-  // console.log(photo);
-  // console.log(req.params.id);
+  console.log(photo);
+  console.log(req.params.id);
   try {
     const personalInfo = await Personal.findByIdAndUpdate(
       req.params.id,
@@ -57,14 +57,15 @@ const updatePersonal = async (req, res) => {
 
 const deletePesonalDetails = async (req, res) => {
   try {
-    const personal = await Personal.findById(req.user.id);
-    if (personal) {
-      await personal.remove();
-      res.json({ message: "personal info removed" });
+    console.log(req.params.id);
+    const personal = await Personal.findByIdAndDelete(req.params.id);
+    res.json({ message: "personal info removed" });
+    if (!personal) {
+      return res.status(404).send("Info not found");
     }
   } catch (err) {
     console.lerror(err.message);
-    res.status(404).send("User not Found");
+    res.status(500).send("Server Error");
   }
 };
 

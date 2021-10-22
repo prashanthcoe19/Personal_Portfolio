@@ -18,17 +18,41 @@ const createExperienceDetails = async (req, res) => {
   }
 };
 
-const deleteExperienceDetails = async (req, res) => {
+const updateExperience = async (req, res) => {
+  const { title, company, from, to, description } = req.body;
   try {
-    const experience = await Experience.findById(req.experience.id);
-    if (experience) {
-      await experience.remove();
-      res.json({ message: "experience info removed" });
-    }
+    const expInfo = await Personal.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          title,
+          company,
+          from,
+          to,
+          description,
+        },
+      },
+      { new: true }
+    );
+    if (!expInfo) return res.status(404).send("Requested info does not exist");
+    res.send(expInfo);
   } catch (err) {
-    console.lerror(err.message);
-    res.status(404).send("User not Found");
+    console.error(err.message);
+    res.status(500).send("Server Error");
   }
 };
 
-export { createExperienceDetails, deleteExperienceDetails };
+const deleteExperienceDetails = async (req, res) => {
+  try {
+    const experience = await Experience.findByIdAndDelete(req.params.id);
+    res.json({ message: "experience info removed" });
+    if (!experience) {
+      res.status(404).send("Requested info not found");
+    }
+  } catch (err) {
+    console.lerror(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+export { createExperienceDetails, deleteExperienceDetails, updateExperience };
