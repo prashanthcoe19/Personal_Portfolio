@@ -2,33 +2,31 @@ import multer from "multer";
 import path from "path";
 
 const storage = multer.diskStorage({
-  destination: function (req, photo, cb) {
+  destination: function (req, file, cb) {
     cb(null, "./uploads");
   },
-  filename: function (req, photo, cb) {
-    console.log("Multer", photo);
+  filename: function (req, file, cb) {
+    console.log("Multer", file);
     cb(
       null,
-      photo.fieldname + "-" + Date.now() + path.extname(photo.originalname)
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
   },
 });
 let upload = multer({
   storage: storage,
-  fileFilter: function (req, photo, cb) {
-    checkFileType(photo, cb);
+  fileFilter: function (req, file, cb) {
+    checkFileType(file, cb);
   },
-}).single("photo");
+}).single("file");
 
-function checkFileType(photo, cb) {
+function checkFileType(file, cb) {
   // Allowed ext
   const filetypes = /jpeg|jpg|png|gif/;
   // Check ext
-  const extname = filetypes.test(
-    path.extname(photo.originalname).toLowerCase()
-  );
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
   // Check mime
-  const mimetype = filetypes.test(photo.mimetype);
+  const mimetype = filetypes.test(file.mimetype);
 
   if (mimetype && extname) {
     return cb(null, true);

@@ -1,22 +1,24 @@
 import mongoose from "mongoose";
 
-const educationSchema = new mongoose.Schema({
-  school: {
+const projectSchema = new mongoose.Schema({
+  title: {
     type: String,
     required: true,
   },
-  degree: {
+  description: {
     type: String,
     required: true,
   },
-  from: {
-    type: Date,
-    required: true,
-  },
-  to: {
+  gitLink: {
     type: String,
     required: true,
   },
+  tools: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   portfolioOf: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -27,4 +29,3 @@ const educationSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-export default mongoose.model("Education", educationSchema);

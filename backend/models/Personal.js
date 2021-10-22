@@ -25,6 +25,11 @@ const personalSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  portfolioOf: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   date: {
     type: Date,
     default: Date.now,

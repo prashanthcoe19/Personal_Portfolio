@@ -1,3 +1,4 @@
 {
-    "mongoURI":"mongodb://localhost:27017/PersonalPortfolio"
+    "mongoURI":"mongodb://localhost:27017/PersonalPortfolio",
+    "jwtSecret": "secret"
 }
