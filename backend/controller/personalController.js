@@ -4,8 +4,6 @@ import Personal from "../models/Personal.js";
 
 const createPersonalDetails = async (req, res) => {
   const { name, email, phone, dob, bio } = req.body;
-  const photo = req.file.filename;
-  console.log(req.file);
   try {
     let personal;
     personal = new Personal({
@@ -14,7 +12,7 @@ const createPersonalDetails = async (req, res) => {
       phone,
       dob,
       bio,
-      photo: photo,
+      photo: req.file.filename,
       portfolioOf: req.user.id,
     });
     await personal.save();

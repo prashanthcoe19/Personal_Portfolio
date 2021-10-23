@@ -12,6 +12,7 @@ import experienceRoute from "./routes/experienceRoute.js";
 import userRoute from "./routes/userRoute.js";
 import authRoute from "./routes/authRoute.js";
 import projectRoute from "./routes/projectRoute.js";
+import skillRoute from "./routes/skillRoute.js";
 connectDB();
 
 // method inbuilt in express to recognize the incoming Request Object as a JSON Object
@@ -26,12 +27,13 @@ app.get("/", (req, res) => {
   res.json({ msg: "Welcome To Portfolio App" });
 });
 
+app.use("/api/user", userRoute);
+app.use("/api/auth", authRoute);
 app.use("/api/personal", personalRoute);
 app.use("/api/education", educationRoute);
 app.use("/api/experience", experienceRoute);
 app.use("/api/project", projectRoute);
-app.use("/api/user", userRoute);
-app.use("/api/auth", authRoute);
+app.use("/api/skill", skillRoute);
 
 app.listen(PORT, (err) => {
   if (err) {

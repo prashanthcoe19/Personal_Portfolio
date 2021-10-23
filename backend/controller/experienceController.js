@@ -9,6 +9,7 @@ const createExperienceDetails = async (req, res) => {
       from,
       to,
       description,
+      portfolioOf: req.user.id,
     });
     await experience.save();
     res.json({ experience });

@@ -8,6 +8,7 @@ const createEducationDetails = async (req, res) => {
       degree,
       from,
       to,
+      portfolioOf: req.user.id,
     });
     await education.save();
     res.json({ education });
