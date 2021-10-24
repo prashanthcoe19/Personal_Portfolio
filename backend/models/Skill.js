@@ -21,8 +21,8 @@ const skillSchema = new mongoose.Schema({
   ],
   portfolioOf: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: User,
-    required: truem,
+    ref: "User",
+    required: true,
   },
   created: {
     type: Date,

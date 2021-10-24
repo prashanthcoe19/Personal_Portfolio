@@ -3,6 +3,7 @@ import connectDB from "./config/db.js";
 import path from "path";
 import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
+import cors from "cors";
 const app = express();
 const PORT = 5000;
 
@@ -17,12 +18,8 @@ connectDB();
 
 // method inbuilt in express to recognize the incoming Request Object as a JSON Object
 app.use(express.json({ extended: false }));
-
+app.use(cors());
 app.use(cookieParser());
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(__dirname + "./uploads/"));
-
 app.get("/", (req, res) => {
   res.json({ msg: "Welcome To Portfolio App" });
 });
@@ -34,6 +31,9 @@ app.use("/api/education", educationRoute);
 app.use("/api/experience", experienceRoute);
 app.use("/api/project", projectRoute);
 app.use("/api/skill", skillRoute);
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(__dirname + "./uploads/"));
 
 app.listen(PORT, (err) => {
   if (err) {
