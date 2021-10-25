@@ -1,12 +1,20 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import setAuthToken from "../../utils/setAuth";
 
-const Login = () => {
+const Login = ({ history }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+      history.push("/create");
+    }
+  }, [history]);
 
   const { email, password } = formData;
 
@@ -17,15 +25,18 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post("/api/auth", formData);
+      const { token } = await res.data;
+      setAuthToken(token);
       console.log(res.data);
+      history.push("/create");
     } catch (err) {
-      console.log(err.res.data);
+      console.log(err.response.data);
     }
   };
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Sign In</h1>
+      <h1 className="medium text-secondary">Log In</h1>
       <p className="lead">
         <i className="fas fa-user" /> Sign Into Your Account
       </p>

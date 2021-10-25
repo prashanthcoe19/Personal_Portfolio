@@ -19,10 +19,7 @@ const Register = () => {
     e.preventDefault();
     console.log(formData);
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/user/signUp",
-        formData
-      );
+      const res = await axios.post("/api/user/signUp", formData);
       console.log(res.data);
     } catch (err) {
       console.log(err.response.data);
@@ -31,7 +28,7 @@ const Register = () => {
 
   return (
     <Fragment>
-      <h1 className="large text-secondary">Register</h1>
+      <h1 className="medium text-secondary">Register</h1>
       <p className="lead">
         <i className="fas fa-user" /> Create Your Account
       </p>
