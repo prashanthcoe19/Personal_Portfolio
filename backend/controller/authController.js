@@ -3,8 +3,9 @@ import User from "../models/User.js";
 
 const login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
   try {
-    let user = await User.findOne({ email }).select("-password");
+    let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).send("email not found");
     }

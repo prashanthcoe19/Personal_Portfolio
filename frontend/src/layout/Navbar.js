@@ -5,7 +5,7 @@ const Navbar = (props) => {
   const authLinks = (
     <ul>
       <li>
-        <h5>@ {props.loggedUser.username}</h5>
+        <h5>@ {props.loggedUser && props.loggedUser.username}</h5>
       </li>
     </ul>
   );

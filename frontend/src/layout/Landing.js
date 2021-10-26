@@ -1,6 +1,11 @@
 import React, { Fragment } from "react";
+import { Redirect } from "react-router-dom";
 // import { Link } from "react-router-dom";
-const Landing = () => {
+const Landing = (props) => {
+  console.log(props);
+  if (props.isAuthenticated === true) {
+    return <Redirect to="/create" />;
+  }
   return (
     <Fragment>
       <section className="landing">

@@ -10,7 +10,24 @@ const Routes = (props) => {
       <Switch>
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/create" component={PortfolioForm} />
+        <Route
+          exact
+          path="/create"
+          render={() => (
+            <PortfolioForm
+              {...props}
+              currentUser={props.currentUser}
+              isAuthenticated={props.isAuthenticated}
+            />
+          )}
+        />
+        {/* <Route
+              exact
+              path="/create"
+              render={(props) => (
+                <PortfolioForm {...props} currentUser={props.currentUser} />
+              )}
+          /> */}
       </Switch>
     </section>
   );
