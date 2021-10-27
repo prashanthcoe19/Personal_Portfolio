@@ -53,4 +53,8 @@ const deleteEducationDetails = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
-export { createEducationDetails, deleteEducationDetails, updateEducation };
+export default {
+  createEducationDetails,
+  deleteEducationDetails,
+  updateEducation,
+};

@@ -56,4 +56,8 @@ const deleteExperienceDetails = async (req, res) => {
   }
 };
 
-export { createExperienceDetails, deleteExperienceDetails, updateExperience };
+export default {
+  createExperienceDetails,
+  deleteExperienceDetails,
+  updateExperience,
+};
