@@ -19,6 +19,16 @@ const createExperienceDetails = async (req, res) => {
   }
 };
 
+const getExperienceDetails = async (req, res) => {
+  try {
+    let experience = await Experience.find({ postedBy: req.user.id });
+    res.json(experience);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+};
+
 const updateExperience = async (req, res) => {
   const { title, company, from, to, description } = req.body;
   try {
@@ -58,6 +68,7 @@ const deleteExperienceDetails = async (req, res) => {
 
 export default {
   createExperienceDetails,
+  getExperienceDetails,
   deleteExperienceDetails,
   updateExperience,
 };

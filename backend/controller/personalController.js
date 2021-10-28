@@ -67,6 +67,16 @@ const deletePesonalDetails = async (req, res) => {
   }
 };
 
+const getPersonalDetails = async (req, res) => {
+  try {
+    let personal = await Personal.find({ postedBy: req.user.id });
+    res.json(personal);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+};
+
 const getAllInfo = async (req, res) => {
   let personal = await Personal.find();
   let education = await Education.find();
@@ -78,4 +88,5 @@ export {
   getAllInfo,
   deletePesonalDetails,
   updatePersonal,
+  getPersonalDetails,
 };

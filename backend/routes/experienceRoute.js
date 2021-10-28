@@ -6,6 +6,8 @@ router
   .route("/create")
   .post(auth, experienceController.createExperienceDetails);
 
+router.route("/get").get(auth, experienceController.getExperienceDetails);
+
 router.route("/update/:id").put(auth, experienceController.updateExperience);
 
 router

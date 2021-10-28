@@ -19,6 +19,16 @@ const createProjectDetails = async (req, res) => {
   }
 };
 
+const getProjectDetails = async (req, res) => {
+  try {
+    let project = await Project.find({ postedBy: req.user.id });
+    res.json(project);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+};
+
 const updateProject = async (req, res) => {
   const { title, description, gitLink, tools } = req.body;
   try {
@@ -54,4 +64,9 @@ const deleteProject = async (req, res) => {
   }
 };
 
-export default { createProjectDetails, updateProject, deleteProject };
+export default {
+  createProjectDetails,
+  updateProject,
+  deleteProject,
+  getProjectDetails,
+};

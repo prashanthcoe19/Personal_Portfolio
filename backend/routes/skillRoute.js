@@ -5,6 +5,8 @@ import auth from "../middleware/auth.js";
 
 router.route("/create").post(auth, skillController.createSkilldetails);
 
+router.route("/get").get(auth, skillController.getSkillDetails);
+
 router.route("/update/:id").put(auth, skillController.updateSkills);
 
 router.route("/delete/:id").delete(auth, skillController.deleteSkill);

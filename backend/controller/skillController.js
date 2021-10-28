@@ -18,6 +18,16 @@ const createSkilldetails = async (req, res) => {
   }
 };
 
+const getSkillDetails = async (req, res) => {
+  try {
+    let skill = await Skill.find({ postedBy: req.user.id });
+    res.json(skill);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+};
+
 const updateSkills = async (req, res) => {
   const { language, frameworks, tools } = req.body;
   try {
@@ -52,4 +62,9 @@ const deleteSkill = async (req, res) => {
   }
 };
 
-export default { createSkilldetails, updateSkills, deleteSkill };
+export default {
+  createSkilldetails,
+  updateSkills,
+  deleteSkill,
+  getSkillDetails,
+};
