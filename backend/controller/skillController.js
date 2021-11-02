@@ -20,7 +20,7 @@ const createSkilldetails = async (req, res) => {
 
 const getSkillDetails = async (req, res) => {
   try {
-    let skill = await Skill.find({ postedBy: req.user.id });
+    let skill = await Skill.find({ portfolioOf: req.user.id });
     res.json(skill);
   } catch (err) {
     console.log(err);

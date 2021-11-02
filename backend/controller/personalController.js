@@ -5,7 +5,14 @@ import Personal from "../models/Personal.js";
 const createPersonalDetails = async (req, res) => {
   const { name, email, phone, dob, bio } = req.body;
   try {
-    let personal;
+    console.log(req.user.id);
+    let personal = await Personal.find({ portfolioOf: req.user.id });
+    console.log(personal);
+    if (personal.length >= 1) {
+      return res
+        .status(400)
+        .send("personal detail of this user alreasdy exists");
+    }
     personal = new Personal({
       name,
       email,
@@ -69,7 +76,7 @@ const deletePesonalDetails = async (req, res) => {
 
 const getPersonalDetails = async (req, res) => {
   try {
-    let personal = await Personal.find({ postedBy: req.user.id });
+    let personal = await Personal.find({ portfolioOf: req.user.id });
     res.json(personal);
   } catch (err) {
     console.log(err);

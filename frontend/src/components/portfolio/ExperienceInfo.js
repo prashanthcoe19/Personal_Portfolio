@@ -1,31 +1,47 @@
-import React, { Fragment, useState } from "react";
-import axios from "axios";
+import React, { Fragment, useState, useContext } from "react";
+import api from "../../utils/api";
+import { ExperienceContext } from "../context/ExperienceContext";
+import Spinner from "../../layout/Spinner";
 const ExperienceInfo = () => {
-  const [experience, setExperience] = useState({
-    title: " ",
-    company: " ",
-    from: " ",
-    to: " ",
-    description: "",
+  const { isLoading, experience } = useContext(ExperienceContext);
+  const [exp, setExp] = useState({
+    title: experience ? experience.title : " ",
+    company: experience ? experience.company : " ",
+    from: experience ? experience.from : " ",
+    to: experience ? experience.to : " ",
+    description: experience ? experience.description : " ",
   });
-  const { title, company, from, to, description } = experience;
+  const { title, company, from, to, description } = exp;
 
   const onChange = (e) => {
-    setExperience({ ...experience, [e.target.name]: e.target.value });
+    setExp({ ...exp, [e.target.name]: e.target.value });
   };
 
   const experienceSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/experience/create", experience);
+      const res = await api.post("/experience/create", exp);
       console.log(res);
     } catch (err) {
       console.log(err.response);
     }
   };
-
+  const experienceUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await api.put(
+        `/experience/update/${experience._id}`,
+        experience
+      );
+      console.log(res);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+  if (isLoading) return <Spinner />;
   return (
     <Fragment>
+      <h2>Enter Your Experience Details</h2>
       <small>* = required field</small>
       <form className="form" onSubmit={experienceSubmit}>
         <div className="form-group">
@@ -33,7 +49,7 @@ const ExperienceInfo = () => {
             type="text"
             placeholder="Job Title"
             name="title"
-            value={title}
+            defaultValue={title}
             onChange={onChange}
           />
           <small className="form-text">Your Recent Job Title?</small>
@@ -43,27 +59,27 @@ const ExperienceInfo = () => {
             type="text"
             placeholder="Company"
             name="company"
-            value={company}
+            defaultValue={company}
             onChange={onChange}
           />
           <small className="form-text">Your Employer Company?</small>
         </div>
         <div className="form-group">
           <input
-            type="date"
+            type="text"
             placeholder="From"
             name="from"
-            value={from}
+            defaultValue={from}
             onChange={onChange}
           />
           <small className="form-text">From?</small>
         </div>
         <div className="form-group">
           <input
-            type="date"
+            type="text"
             placeholder="to"
             name="to"
-            value={to}
+            defaultValue={to}
             onChange={onChange}
           />
           <small className="form-text">To?</small>
@@ -73,14 +89,31 @@ const ExperienceInfo = () => {
             type="text"
             placeholder="Description"
             name="description"
-            value={description}
+            defaultValue={description}
             onChange={onChange}
           />
           <small className="form-text">Describe your Role!</small>
         </div>
-        <button type="submit" variant="contained" class="btn btn-primary">
-          Submit
-        </button>
+        {experience ? (
+          <button
+            type="submit"
+            variant="contained"
+            class="btn btn-primary"
+            onClick={experienceUpdate}
+          >
+            Update
+          </button>
+        ) : (
+          <button
+            type="submit"
+            variant="container"
+            class="btn btn-dark"
+            onClick={experienceSubmit}
+          >
+            {" "}
+            Save
+          </button>
+        )}
       </form>
     </Fragment>
   );

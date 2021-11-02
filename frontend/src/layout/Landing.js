@@ -1,9 +1,10 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Redirect } from "react-router-dom";
 // import { Link } from "react-router-dom";
-const Landing = (props) => {
-  console.log(props);
-  if (props.isAuthenticated === true) {
+import { AuthContext } from "../components/context/AuthContext";
+const Landing = () => {
+  const { isAuthenticated } = useContext(AuthContext);
+  if (isAuthenticated === true) {
     return <Redirect to="/create" />;
   }
   return (

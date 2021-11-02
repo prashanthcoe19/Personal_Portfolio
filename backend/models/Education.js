@@ -10,7 +10,7 @@ const educationSchema = new mongoose.Schema({
     required: true,
   },
   from: {
-    type: Date,
+    type: String,
     required: true,
   },
   to: {

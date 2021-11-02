@@ -18,6 +18,16 @@ const createEducationDetails = async (req, res) => {
   }
 };
 
+const getEducationDetails = async (req, res) => {
+  try {
+    let education = await Education.find({ portfolioOf: req.user.id });
+    res.json(education);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+};
+
 const updateEducation = async (req, res) => {
   const { school, degree, from, to } = req.body;
   try {
@@ -55,6 +65,7 @@ const deleteEducationDetails = async (req, res) => {
 };
 export default {
   createEducationDetails,
+  getEducationDetails,
   deleteEducationDetails,
   updateEducation,
 };

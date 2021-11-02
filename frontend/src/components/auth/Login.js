@@ -1,20 +1,28 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuth";
+import { AuthContext } from "../context/AuthContext";
+import { Redirect } from "react-router-dom";
+import { PersonalContext } from "../context/PersonalContext";
 
 const Login = ({ history }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-  useEffect(() => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-      history.push("/create");
-    }
-  }, [history]);
+  const {
+    isAuthenticated,
+    currentUser,
+    setIsAuthenticated,
+    setUser,
+    setIsLoaded,
+    setToken,
+  } = useContext(AuthContext);
+  const { getPersonal } = useContext(PersonalContext);
+  if (isAuthenticated === true) {
+    return <Redirect to="/create" />;
+  }
 
   const { email, password } = formData;
 
@@ -25,12 +33,17 @@ const Login = ({ history }) => {
     e.preventDefault();
     try {
       const res = await axios.post("/api/auth", formData);
-      const { token } = await res.data;
-      setAuthToken(token);
+      const { token } = res.data;
       console.log(res.data);
+      setAuthToken(token);
+      setIsAuthenticated(true);
+      setUser(res.data);
+      setIsLoaded(true);
+      currentUser();
+      getPersonal();
       history.push("/create");
     } catch (err) {
-      console.log(err.response.data);
+      console.log(err.response);
     }
   };
 

@@ -3,31 +3,16 @@ import { Route, Switch } from "react-router-dom";
 import Register from "../auth/Register";
 import Login from "../auth/Login";
 import PortfolioForm from "../portfolio/PortfolioForm";
+import PrivateRoute from "./Private";
+import PortfolioBuilder from "../portfolio/PortfolioBuilder";
 
-const Routes = (props) => {
+const Routes = () => {
   return (
     <section className="container">
       <Switch>
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
-        <Route
-          exact
-          path="/create"
-          render={() => (
-            <PortfolioForm
-              {...props}
-              currentUser={props.currentUser}
-              isAuthenticated={props.isAuthenticated}
-            />
-          )}
-        />
-        {/* <Route
-              exact
-              path="/create"
-              render={(props) => (
-                <PortfolioForm {...props} currentUser={props.currentUser} />
-              )}
-          /> */}
+        <PrivateRoute exact path="/create" component={PortfolioForm} />
       </Switch>
     </section>
   );

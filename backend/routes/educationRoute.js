@@ -2,7 +2,10 @@ import express from "express";
 import educationController from "../controller/educationController.js";
 const router = express.Router();
 import auth from "../middleware/auth.js";
+
 router.route("/create").post(auth, educationController.createEducationDetails);
+
+router.route("/get").get(auth, educationController.getEducationDetails)
 
 router.route("/update/:id").put(auth, educationController.updateEducation);
 

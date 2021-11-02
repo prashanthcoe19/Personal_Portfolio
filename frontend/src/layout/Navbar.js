@@ -1,13 +1,22 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
-// import { Button } from 'react-bootstrap';
+import { AuthContext } from "../components/context/AuthContext";
+import Spinner from "./Spinner";
+import Logout from "./Logout";
 const Navbar = (props) => {
+  const { user, isAuthenticated, isLoaded } = useContext(AuthContext);
+  // if (!isLoaded) return <Spinner />;
   const authLinks = (
-    <ul>
-      <li>
-        <h5>@ {props.loggedUser && props.loggedUser.username}</h5>
-      </li>
-    </ul>
+    <Fragment>
+      <ul>
+        <li>{!isLoaded ? <h5>... </h5> : <h5>@{user?.username}</h5>}</li>
+      </ul>
+      <ul>
+        <li>
+          <Logout />
+        </li>
+      </ul>
+    </Fragment>
   );
   const guestLinks = (
     <ul>
@@ -24,7 +33,9 @@ const Navbar = (props) => {
       <h1>
         <i className="fas fa-address-card">Portfolio-Builder</i>
       </h1>
-      <Fragment>{props.isAuthenticated ? authLinks : guestLinks}</Fragment>
+      <Fragment>
+        {isAuthenticated && isLoaded ? authLinks : guestLinks}
+      </Fragment>
     </nav>
   );
 };

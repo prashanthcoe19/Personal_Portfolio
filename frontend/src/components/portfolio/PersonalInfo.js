@@ -1,16 +1,21 @@
-import React, { useState, Fragment } from "react";
-import axios from "axios";
+import React, { useState, Fragment, useContext } from "react";
+import { PersonalContext } from "../context/PersonalContext";
+import Spinner from "../../layout/Spinner";
+import api from "../../utils/api";
 const PersonalInfo = () => {
+  const { isLoading, personnal } = useContext(PersonalContext);
+  console.log(personnal);
   const [personal, setPersonal] = useState({
-    name: " ",
-    email: " ",
-    phone: " ",
-    dob: " ",
-    bio: " ",
+    name: personnal ? personnal.name : " ",
+    email: personnal ? personnal.email : " ",
+    phone: personnal ? personnal.phone : " ",
+    dob: personnal ? personnal.dob : " ",
+    bio: personnal ? personnal.bio : " ",
   });
+  const [toggle, setToggle] = useState(false);
   const [photo, setPhoto] = useState();
   const { name, email, phone, dob, bio } = personal;
-
+  // const mypersonal = personalContext.personal[0];
   const onChange = (e) => {
     setPersonal({ ...personal, [e.target.name]: e.target.value });
   };
@@ -28,25 +33,47 @@ const PersonalInfo = () => {
     newPersonal.append("bio", bio);
     newPersonal.append("file", photo);
     try {
-      const res = await axios.post("api/personal/create", newPersonal);
+      const res = await api.post("/personal/create", newPersonal);
+      setToggle(true);
       console.log(res.data);
     } catch (err) {
       console.log(err.response);
     }
   };
+  const personalUpdate = async (e) => {
+    e.preventDefault();
+    const newPersonal = new FormData();
+    newPersonal.append("name", name);
+    newPersonal.append("email", email);
+    newPersonal.append("phone", phone);
+    newPersonal.append("dob", dob);
+    newPersonal.append("bio", bio);
+    newPersonal.append("file", photo);
+    try {
+      const res = await api.put(
+        `/personal/update/${personnal.id}`,
+        newPersonal
+      );
+      console.log(res.data);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+  if (isLoading & !personal) return <Spinner />;
   return (
     <Fragment>
+      <h2>Enter Your Personal Details</h2>
       <small>* = required field</small>
-      <form className="form" onSubmit={personalSubmit}>
+      <form className="form">
         <div className="form-group">
           <input
             type="text"
             placeholder="Name"
             name="name"
-            value={name}
+            defaultValue={name}
             onChange={onChange}
           />
-          <small className="form-text">Your Name?</small>
+          <small className="form-text">`Your Name</small>
         </div>
         <div className="form-group">
           <input
@@ -98,9 +125,26 @@ const PersonalInfo = () => {
           />{" "}
           <small className="form-text">Upload a new picture</small>
         </div>
-        <button type="submit" variant="contained" class="btn btn-primary">
-          Submit
-        </button>
+        {personnal ? (
+          <button
+            type="submit"
+            variant="contained"
+            class="btn btn-primary"
+            onClick={personalUpdate}
+          >
+            Update
+          </button>
+        ) : (
+          <button
+            type="submit"
+            variant="container"
+            class="btn btn-dark"
+            onClick={personalSubmit}
+          >
+            {" "}
+            Save
+          </button>
+        )}
       </form>
     </Fragment>
   );

@@ -24,7 +24,7 @@ const personalSchema = new mongoose.Schema({
     data: Buffer,
     type: String,
     trim: true,
-    required: true,
+    // required: true,
   },
   portfolioOf: {
     type: mongoose.Schema.Types.ObjectId,

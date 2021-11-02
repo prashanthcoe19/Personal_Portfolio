@@ -1,28 +1,44 @@
-import React, { Fragment, useState } from "react";
-import axios from "axios";
-
+import React, { Fragment, useState, useContext } from "react";
+import { EducationContext } from "../context/EducationContext";
+import Spinner from "../../layout/Spinner";
+import api from "../../utils/api";
 const EducationInfo = () => {
-  const [education, setEducation] = useState({
-    school: " ",
-    degree: " ",
-    from: " ",
-    to: " ",
+  const { isLoading, education } = useContext(EducationContext);
+  const [edu, setEdu] = useState({
+    school: education ? education.school : " ",
+    degree: education ? education.degree : " ",
+    from: education ? education.from : " ",
+    to: education ? education.to : " ",
   });
-  const { school, degree, from, to } = education;
+  const { school, degree, from, to } = edu;
   const educationSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/education/create", education);
+      const res = await api.post("/education/create", edu);
+      console.log(res);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+  const educationUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await api.put(
+        `/education/update/${education._id}`,
+        education
+      );
       console.log(res);
     } catch (err) {
       console.log(err.response);
     }
   };
   const onChange = (e) => {
-    setEducation({ ...education, [e.target.name]: e.target.value });
+    setEdu({ ...edu, [e.target.name]: e.target.value });
   };
+  if (isLoading) return <Spinner />;
   return (
     <Fragment>
+      <h2>Enter Your School Details</h2>
       <small>* = required field</small>
       <form className="form" onSubmit={educationSubmit}>
         <div className="form-group">
@@ -30,7 +46,7 @@ const EducationInfo = () => {
             type="text"
             placeholder="School"
             name="school"
-            value={school}
+            defaultValue={school}
             onChange={onChange}
           />
           <small className="form-text">Your Recent School?</small>
@@ -40,34 +56,51 @@ const EducationInfo = () => {
             type="text"
             placeholder="Degree"
             name="degree"
-            value={degree}
+            defaultValue={degree}
             onChange={onChange}
           />
           <small className="form-text">Your Degree?</small>
         </div>
         <div className="form-group">
           <input
-            type="date"
+            type="text"
             placeholder="From"
             name="from"
-            value={from}
+            defaultValue={from}
             onChange={onChange}
           />
           <small className="form-text">From?</small>
         </div>
         <div className="form-group">
           <input
-            type="date"
+            type="text"
             placeholder="to"
             name="to"
-            value={to}
+            defaultValue={to}
             onChange={onChange}
           />
           <small className="form-text">To?</small>
         </div>
-        <button type="submit" variant="contained" class="btn btn-primary">
-          Submit
-        </button>
+        {education ? (
+          <button
+            type="submit"
+            variant="contained"
+            class="btn btn-primary"
+            onClick={educationUpdate}
+          >
+            Update
+          </button>
+        ) : (
+          <button
+            type="submit"
+            variant="container"
+            class="btn btn-dark"
+            onClick={educationSubmit}
+          >
+            {" "}
+            Save
+          </button>
+        )}
       </form>
     </Fragment>
   );

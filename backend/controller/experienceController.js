@@ -21,7 +21,7 @@ const createExperienceDetails = async (req, res) => {
 
 const getExperienceDetails = async (req, res) => {
   try {
-    let experience = await Experience.find({ postedBy: req.user.id });
+    let experience = await Experience.find({ portfolioOf: req.user.id });
     res.json(experience);
   } catch (err) {
     console.log(err);

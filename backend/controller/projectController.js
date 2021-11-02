@@ -21,8 +21,8 @@ const createProjectDetails = async (req, res) => {
 
 const getProjectDetails = async (req, res) => {
   try {
-    let project = await Project.find({ postedBy: req.user.id });
-    res.json(project);
+    let project = await Project.find({ portfolioOf: req.user.id });
+    if (project) return res.json(project);
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error");
