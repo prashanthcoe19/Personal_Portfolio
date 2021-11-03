@@ -1,6 +1,8 @@
 import React, { createContext, useState, useEffect } from "react";
 import api from "../../utils/api";
 import Spinner from "../../layout/Spinner";
+import setAuthToken from "../../utils/setAuth";
+
 export const SkillContext = createContext();
 
 const SkillState = (props) => {
@@ -9,7 +11,7 @@ const SkillState = (props) => {
   const getSkill = async () => {
     try {
       const res = await api.get("/skill/get");
-      setSkills(res.data);
+      setSkills(res.data[0]);
       setisLoading(false);
       //   console.log(personnal);
     } catch (err) {
@@ -17,6 +19,9 @@ const SkillState = (props) => {
     }
   };
   useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
     // console.log(localStorage.getItem("token"));
     getSkill();
   }, []);

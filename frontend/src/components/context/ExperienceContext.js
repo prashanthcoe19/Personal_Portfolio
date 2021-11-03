@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import api from "../../utils/api";
 import Spinner from "../../layout/Spinner";
+import setAuthToken from "../../utils/setAuth";
 export const ExperienceContext = createContext();
 
 const ExperienceState = (props) => {
@@ -18,7 +19,9 @@ const ExperienceState = (props) => {
     }
   };
   useEffect(() => {
-    // console.log(localStorage.getItem("token"));
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
     getExperience();
   }, []);
 

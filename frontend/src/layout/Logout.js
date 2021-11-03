@@ -2,14 +2,13 @@ import React, { Fragment, useState, useContext } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { AuthContext } from "../components/context/AuthContext";
 import { PersonalContext } from "../components/context/PersonalContext";
-const Logout = () => {
+const Logout = ({ history }) => {
   const [show, setShow] = useState(false);
   const { logout } = useContext(AuthContext);
   // const { setPersonnal } = useContext(PersonalContext);
   const handleLogout = () => {
     logout();
     setShow(false);
-
     // setPersonnal(null);
   };
   const handleClose = () => {

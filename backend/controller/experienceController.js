@@ -22,6 +22,9 @@ const createExperienceDetails = async (req, res) => {
 const getExperienceDetails = async (req, res) => {
   try {
     let experience = await Experience.find({ portfolioOf: req.user.id });
+    if (!experience) {
+      res.json({ message: "Experience does not exist" });
+    }
     res.json(experience);
   } catch (err) {
     console.log(err);
@@ -61,7 +64,7 @@ const deleteExperienceDetails = async (req, res) => {
       res.status(404).send("Requested info not found");
     }
   } catch (err) {
-    console.lerror(err.message);
+    console.error(err.message);
     res.status(500).send("Server Error");
   }
 };

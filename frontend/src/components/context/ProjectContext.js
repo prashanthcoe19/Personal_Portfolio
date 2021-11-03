@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import api from "../../utils/api";
 import Spinner from "../../layout/Spinner";
+import setAuthToken from "../../utils/setAuth";
 export const ProjectContext = createContext();
 
 const ProjectState = (props) => {
@@ -16,7 +17,11 @@ const ProjectState = (props) => {
       console.log(err.response);
     }
   };
+
   useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
     getProject();
   }, []);
 
@@ -31,6 +36,7 @@ const ProjectState = (props) => {
           setProject,
           isLoading,
           setisLoading,
+
           ...props,
         }}
       >

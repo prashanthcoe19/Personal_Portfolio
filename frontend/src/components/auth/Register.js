@@ -1,15 +1,18 @@
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useState, useContext } from "react";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
-
-const Register = () => {
+import { AuthContext } from "../context/AuthContext";
+import setAuthToken from "../../utils/setAuth";
+const Register = ({ history }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     username: "",
     password: "",
   });
-
+  const { isAuthenticated, setIsAuthenticated, setUser, setIsLoaded } =
+    useContext(AuthContext);
+  // const { getPersonal } = useContext(PersonalContext);
   const { name, email, username, password } = formData;
 
   const onChange = (e) =>
@@ -21,11 +24,20 @@ const Register = () => {
     try {
       const res = await axios.post("/api/user/signUp", formData);
       console.log(res.data);
+      const { token } = res.data;
+      console.log(res.data);
+      setAuthToken(token);
+      setIsAuthenticated(true);
+      setUser(res.data);
+      setIsLoaded(true);
+      history.push("/welcome");
     } catch (err) {
       console.log(err.response.data);
     }
   };
-
+  if (isAuthenticated === true) {
+    return <Redirect to="/welcome" />;
+  }
   return (
     <Fragment>
       <h1 className="medium text-secondary">Register</h1>

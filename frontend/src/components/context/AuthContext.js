@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import api from "../../utils/api";
 import setAuthToken from "../../utils/setAuth";
+// import setAuthToken from "../../utils/setAuth";
 
 export const AuthContext = createContext();
 
@@ -11,8 +12,12 @@ const AuthState = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const currentUser = async () => {
     try {
+      console.log(localStorage.getItem("token"));
       const res = await api.get("/auth");
+      // const { user } = res.data;
+      console.log(user);
       setUser(res.data);
+      // setToken(localStorage.getItem("token"));
       setIsAuthenticated(true);
       setIsLoaded(true);
       console.log(res.data);
@@ -23,42 +28,40 @@ const AuthState = (props) => {
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
-    setToken("");
     setIsAuthenticated(false);
     setIsLoaded(false);
+    setToken(null);
+    // props.history.push("/login");
   };
 
   useEffect(() => {
     if (token) {
-      setAuthToken(localStorage.token);
-      //   setToken(token);
+      setAuthToken(localStorage.getItem("token"));
     }
     currentUser();
   }, []);
 
   return (
     <div>
-      {!isLoaded && token ? (
+      {/* {!isLoaded ? (
         <h1>Loading ... </h1>
-      ) : (
-        <AuthContext.Provider
-          value={{
-            user,
-            setUser,
-            isAuthenticated,
-            setIsAuthenticated,
-            //   token,
-            //   setToken,
-            currentUser,
-            isLoaded,
-            setIsLoaded,
-            logout,
-            ...props,
-          }}
-        >
-          {props.children}
-        </AuthContext.Provider>
-      )}
+      ) : ( */}
+      <AuthContext.Provider
+        value={{
+          user,
+          setUser,
+          isAuthenticated,
+          setIsAuthenticated,
+          currentUser,
+          isLoaded,
+          setIsLoaded,
+          logout,
+          ...props,
+        }}
+      >
+        {props.children}
+      </AuthContext.Provider>
+      {/* )} */}
     </div>
   );
 };

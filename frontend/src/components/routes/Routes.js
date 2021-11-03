@@ -5,6 +5,8 @@ import Login from "../auth/Login";
 import PortfolioForm from "../portfolio/PortfolioForm";
 import PrivateRoute from "./Private";
 import PortfolioBuilder from "../portfolio/PortfolioBuilder";
+import Welcome from "../portfolio/Welcome";
+import FinalPort from "../../finalport/FinalPort";
 
 const Routes = () => {
   return (
@@ -12,6 +14,8 @@ const Routes = () => {
       <Switch>
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
+        {/* <PrivateRoute exact path="/portfolio" component={FinalPort} /> */}
+        <PrivateRoute exact path="/welcome" component={Welcome} />
         <PrivateRoute exact path="/create" component={PortfolioForm} />
       </Switch>
     </section>

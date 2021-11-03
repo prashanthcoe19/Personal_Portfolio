@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import api from "../../utils/api";
 import Spinner from "../../layout/Spinner";
+import setAuthToken from "../../utils/setAuth";
 export const PersonalContext = createContext();
 
 const PersonalState = (props) => {
@@ -17,7 +18,9 @@ const PersonalState = (props) => {
     }
   };
   useEffect(() => {
-    // console.log(localStorage.getItem("token"));
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
     getPersonal();
   }, []);
 
@@ -32,6 +35,7 @@ const PersonalState = (props) => {
           setPersonnal,
           isLoading,
           setisLoading,
+          getPersonal,
           ...props,
         }}
       >

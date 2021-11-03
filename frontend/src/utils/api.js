@@ -3,7 +3,6 @@ const api = axios.create({
   baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
-    "x-auth-token": `${localStorage.getItem("token")}`,
   },
 });
 

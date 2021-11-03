@@ -3,19 +3,23 @@ import { SkillContext } from "../context/SkillContext";
 import Spinner from "../../layout/Spinner";
 import api from "../../utils/api";
 const SkillInfo = () => {
-  const { isLoading, skill } = useContext(SkillContext);
-  console.log(skill);
+  const { isLoading, skills, setSkills } = useContext(SkillContext);
+  console.log(skills);
   const [ski, setSki] = useState({
-    language: skill ? skill.title : [],
-    framework: skill ? skill.description : [],
-    tools: skill ? skill.tools : [],
+    language: skills ? skills.language : [],
+    frameworks: skills ? skills.frameworks : [],
+    tools: skills ? skills.tools : [],
   });
-  const { language, framework, tools } = ski;
+  let { language, frameworks, tools } = ski;
+
   const skillSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await api.post("/skill/create", ski);
       console.log(res);
+
+      setSkills(res.data[0]);
+      alert("Skill details saved");
     } catch (err) {
       console.log(err.response);
     }
@@ -23,8 +27,12 @@ const SkillInfo = () => {
   const skillUpdate = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.put(`/skill/create/${skill._id}`, ski);
+      const res = await api.put(`/skill/update/${skills._id}`, ski);
       console.log(res);
+
+      setSkills(res.data[0]);
+
+      alert("Skill details updated");
     } catch (err) {
       console.log(err.response);
     }
@@ -32,7 +40,7 @@ const SkillInfo = () => {
   const onChange = (e) => {
     setSki({ ...ski, [e.target.name]: e.target.value });
   };
-  if (isLoading) return <Spinner />;
+
   return (
     <Fragment>
       <h2>Enter Your Skill Details</h2>
@@ -41,40 +49,41 @@ const SkillInfo = () => {
         <div className="form-group">
           <input
             type="text"
-            placeholder="Title"
-            name="title"
-            defaultValue={language.join(";")}
+            placeholder="Language"
+            name="language"
+            value={language}
             onChange={onChange}
           />
-          <small className="form-text">Project Title</small>
+          <small className="form-text">Languages</small>
         </div>
         <div className="form-group">
           <input
             type="text"
-            placeholder="Description"
-            name="description"
-            defaultValue={framework.join(";")}
+            placeholder="framework"
+            name="framework"
+            value={frameworks}
             onChange={onChange}
           />
-          <small className="form-text">Project Description?</small>
+          <small className="form-text">Frameworks</small>
         </div>
         <div className="form-group">
           <input
             type="text"
             placeholder="Tools"
             name="tools"
-            defaultValue={tools.join(";")}
+            value={tools}
             onChange={onChange}
           />
           <small className="form-text">Tools Used?</small>
         </div>
-        {skill ? (
+        {skills ? (
           <button
             type="submit"
-            variant="contained"
-            class="btn btn-primary"
+            variant="container"
+            class="btn btn-dark"
             onClick={skillUpdate}
           >
+            {" "}
             Update
           </button>
         ) : (

@@ -1,31 +1,21 @@
-import React, { Fragment, useState, useEffect, useContext } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import setAuthToken from "../../utils/setAuth";
+import { useHistory } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { Redirect } from "react-router-dom";
-import { PersonalContext } from "../context/PersonalContext";
+import setAuthToken from "../../utils/setAuth";
 
-const Login = ({ history }) => {
+const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const {
-    isAuthenticated,
-    currentUser,
-    setIsAuthenticated,
-    setUser,
-    setIsLoaded,
-    setToken,
-  } = useContext(AuthContext);
-  const { getPersonal } = useContext(PersonalContext);
-  if (isAuthenticated === true) {
-    return <Redirect to="/create" />;
-  }
+  const { currentUser, setIsAuthenticated, setUser, setIsLoaded } =
+    useContext(AuthContext);
 
   const { email, password } = formData;
-
+  const history = useHistory();
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -34,19 +24,18 @@ const Login = ({ history }) => {
     try {
       const res = await axios.post("/api/auth", formData);
       const { token } = res.data;
+      const { user } = res.data;
       console.log(res.data);
       setAuthToken(token);
       setIsAuthenticated(true);
-      setUser(res.data);
+      setUser(user);
       setIsLoaded(true);
       currentUser();
-      getPersonal();
-      history.push("/create");
+      history.push("/welcome");
     } catch (err) {
       console.log(err.response);
     }
   };
-
   return (
     <Fragment>
       <h1 className="medium text-secondary">Log In</h1>

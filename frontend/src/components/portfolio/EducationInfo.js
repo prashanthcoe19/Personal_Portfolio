@@ -3,7 +3,7 @@ import { EducationContext } from "../context/EducationContext";
 import Spinner from "../../layout/Spinner";
 import api from "../../utils/api";
 const EducationInfo = () => {
-  const { isLoading, education } = useContext(EducationContext);
+  const { isLoading, education, setEducation } = useContext(EducationContext);
   const [edu, setEdu] = useState({
     school: education ? education.school : " ",
     degree: education ? education.degree : " ",
@@ -16,6 +16,10 @@ const EducationInfo = () => {
     try {
       const res = await api.post("/education/create", edu);
       console.log(res);
+      setEducation(res.data[0]);
+      if (res) {
+        alert("Education Details Saved");
+      }
     } catch (err) {
       console.log(err.response);
     }
@@ -28,6 +32,10 @@ const EducationInfo = () => {
         education
       );
       console.log(res);
+      setEducation(res.data[0]);
+      if (res) {
+        alert("Education Details Updated");
+      }
     } catch (err) {
       console.log(err.response);
     }
@@ -35,7 +43,6 @@ const EducationInfo = () => {
   const onChange = (e) => {
     setEdu({ ...edu, [e.target.name]: e.target.value });
   };
-  if (isLoading) return <Spinner />;
   return (
     <Fragment>
       <h2>Enter Your School Details</h2>

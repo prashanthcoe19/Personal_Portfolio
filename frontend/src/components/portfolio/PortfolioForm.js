@@ -15,6 +15,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Redirect } from "react-router-dom";
 import Spinner from "../../layout/Spinner";
 import { PersonalContext } from "../context/PersonalContext";
+import Submit from "./Submit";
 const steps = [
   "Personal Information",
   "Educational Information",
@@ -27,11 +28,11 @@ export default function PortfolioForm(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const { isAuthenticated, isLoaded } = useContext(AuthContext);
-  const { isLoading, personal } = useContext(PersonalContext);
+
   if (isAuthenticated === false) {
     return <Redirect to="/login" />;
   }
-  if (!isLoaded || isLoading) return <Spinner />;
+  if (!isLoaded) return <Spinner />;
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -94,7 +95,7 @@ export default function PortfolioForm(props) {
                 {activeStep === steps.length ? (
                   <React.Fragment>
                     <Typography sx={{ mt: 2, mb: 1 }}>
-                      All steps completed - you&apos;re finished
+                      <Submit />
                     </Typography>
                     <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                       <Box sx={{ flex: "1 1 auto" }} />

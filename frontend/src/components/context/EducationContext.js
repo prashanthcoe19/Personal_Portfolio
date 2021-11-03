@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import api from "../../utils/api";
 import Spinner from "../../layout/Spinner";
+import setAuthToken from "../../utils/setAuth";
 
 export const EducationContext = createContext();
 
@@ -18,7 +19,9 @@ const EducationState = (props) => {
     }
   };
   useEffect(() => {
-    // console.log(localStorage.getItem("token"));
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
     getEducation();
   }, []);
 

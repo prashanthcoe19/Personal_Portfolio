@@ -3,7 +3,8 @@ import api from "../../utils/api";
 import { ExperienceContext } from "../context/ExperienceContext";
 import Spinner from "../../layout/Spinner";
 const ExperienceInfo = () => {
-  const { isLoading, experience } = useContext(ExperienceContext);
+  const { isLoading, experience, setExperience } =
+    useContext(ExperienceContext);
   const [exp, setExp] = useState({
     title: experience ? experience.title : " ",
     company: experience ? experience.company : " ",
@@ -22,6 +23,10 @@ const ExperienceInfo = () => {
     try {
       const res = await api.post("/experience/create", exp);
       console.log(res);
+      setExperience(res.data[0]);
+      if (res) {
+        alert("Experience Details Saved");
+      }
     } catch (err) {
       console.log(err.response);
     }
@@ -34,11 +39,14 @@ const ExperienceInfo = () => {
         experience
       );
       console.log(res);
+      setExperience(res.data[0]);
+      if (res) {
+        alert("Experience Details Updated");
+      }
     } catch (err) {
       console.log(err.response);
     }
   };
-  if (isLoading) return <Spinner />;
   return (
     <Fragment>
       <h2>Enter Your Experience Details</h2>

@@ -10,11 +10,11 @@ import Spinner from "../../layout/Spinner";
 import { Redirect } from "react-router-dom";
 const PortfolioBuilder = (props) => {
   const { isAuthenticated, isLoaded } = useContext(AuthContext);
-  const { isLoading } = useContext(PersonalContext);
+  // const { isLoading } = useContext(PersonalContext);
   if (isAuthenticated === false) {
     return <Redirect to="/login" />;
   }
-  if (!isLoaded && isLoading) return <Spinner />;
+  if (!isLoaded) return <Spinner />;
   return (
     <React.Fragment>
       <PersonalInfo />

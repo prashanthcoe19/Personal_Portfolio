@@ -54,9 +54,9 @@ const updateProject = async (req, res) => {
 const deleteProject = async (req, res) => {
   try {
     const project = await Project.findByIdAndDelete(req.params.id);
-    res.json({ message: "education details removed" });
+    res.json({ message: "project details removed" });
     if (!project) {
-      res.status(404).send("Selected Project cannot be found");
+      res.status(404).json({ message: "Project does not exist" });
     }
   } catch (err) {
     console.log(err.message);
