@@ -16,15 +16,12 @@ const ProjectInfo = () => {
     e.preventDefault();
     try {
       const res = await api.post("/project/create", proj);
-      console.log(res);
-      setProject(res.data);
-      alert("Project Details Saved");
-      setProj({
-        title: " ",
-        description: " ",
-        gitLink: " ",
-        tools: " ",
-      });
+      console.log(res.data);
+      setProject((prevState) => [...prevState, res.data.project]);
+      if (res) {
+        alert("Project Details Saved");
+      }
+      // setProj({});
     } catch (err) {
       console.log(err.response);
     }
@@ -32,7 +29,6 @@ const ProjectInfo = () => {
 
   const projectDelete = async (id) => {
     try {
-      console.log(id);
       const res = await api.delete(`/project/delete/${id}`);
       console.log(res);
       if (res) {
@@ -40,11 +36,13 @@ const ProjectInfo = () => {
       }
     } catch (err) {
       console.log(err.response);
+      alert("Error deleting Project");
     }
   };
   const onChange = (e) => {
     setProj({ ...proj, [e.target.name]: e.target.value });
   };
+  console.log(project);
   return (
     <Fragment>
       {project
@@ -74,7 +72,7 @@ const ProjectInfo = () => {
             type="text"
             placeholder="Title"
             name="title"
-            defaultValue={title}
+            value={title}
             onChange={onChange}
           />
           <small className="form-text">Project Title</small>
@@ -84,7 +82,7 @@ const ProjectInfo = () => {
             type="text"
             placeholder="Description"
             name="description"
-            defaultValue={description}
+            value={description}
             onChange={onChange}
           />
           <small className="form-text">Project Description?</small>
@@ -94,7 +92,7 @@ const ProjectInfo = () => {
             type="text"
             placeholder="Gitlink"
             name="gitLink"
-            defaultValue={gitLink}
+            value={gitLink}
             onChange={onChange}
           />
           <small className="form-text">Git Links?</small>
@@ -104,7 +102,7 @@ const ProjectInfo = () => {
             type="text"
             placeholder="Tools"
             name="tools"
-            defaultValue={tools}
+            value={tools}
             onChange={onChange}
           />
           <small className="form-text">Tools Used?</small>

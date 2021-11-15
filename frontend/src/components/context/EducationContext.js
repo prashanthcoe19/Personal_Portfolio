@@ -11,9 +11,9 @@ const EducationState = (props) => {
   const getEducation = async () => {
     try {
       const res = await api.get("/education/get");
+      console.log(res.data);
       setEducation(res.data[0]);
       setisLoading(false);
-      //   console.log(personnal);
     } catch (err) {
       console.log(err.response);
     }

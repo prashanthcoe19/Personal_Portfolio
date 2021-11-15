@@ -11,7 +11,7 @@ const createSkilldetails = async (req, res) => {
       portfolioOf: req.user.id,
     });
     await skill.save();
-    res.json({ skill });
+    res.json(skill);
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server Error");

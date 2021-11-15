@@ -1,22 +1,28 @@
-import React, { useState, Fragment, useContext } from "react";
+import React, { useState, Fragment, useContext, useEffect } from "react";
 import { PersonalContext } from "../context/PersonalContext";
 import Spinner from "../../layout/Spinner";
 import api from "../../utils/api";
 const PersonalInfo = () => {
   const { isLoading, personnal, setPersonnal } = useContext(PersonalContext);
-
   // console.log(personnal);
   const [personal, setPersonal] = useState({
-    name: personnal ? personnal.name : " ",
-    email: personnal ? personnal.email : " ",
-    phone: personnal ? personnal.phone : " ",
-    dob: personnal ? personnal.dob : " ",
-    bio: personnal ? personnal.bio : " ",
+    bio: " ",
+    dob: " ",
+    email: " ",
+    name: " ",
+    phone: " ",
   });
   const [toggle, setToggle] = useState(false);
   const [photo, setPhoto] = useState();
   const { name, email, phone, dob, bio } = personal;
-  // const mypersonal = personalContext.personal[0];
+
+  useEffect(() => {
+    if (personnal != null) {
+      setPersonal(personnal);
+    }
+  }, []);
+  // console.log(personal);
+
   const onChange = (e) => {
     setPersonal({ ...personal, [e.target.name]: e.target.value });
   };
@@ -35,12 +41,12 @@ const PersonalInfo = () => {
     newPersonal.append("file", photo);
     try {
       const res = await api.post("/personal/create", newPersonal);
-      console.log(res.data);
-      // setPersonal(res.data[0]);
+      // console.log(res.data);
       if (res) {
         alert("Personal Details Saved");
+        setToggle(true);
+        setPersonnal(res.data[0]);
       }
-      if (res) setToggle(true);
     } catch (err) {
       console.log(err.response);
     }
@@ -59,12 +65,13 @@ const PersonalInfo = () => {
         `/personal/update/${personnal._id}`,
         newPersonal
       );
-      console.log(res.data);
+      // console.log(res.data);
       if (res) {
+        setPersonnal(res.data[0]);
         alert("Personal Details Updated");
       }
-      // setPersonal(res.data[0]);
     } catch (err) {
+      alert("Information cannot be updated");
       console.log(err.response);
     }
   };
@@ -82,7 +89,7 @@ const PersonalInfo = () => {
                 type="text"
                 placeholder="Name"
                 name="name"
-                defaultValue={name}
+                value={name}
                 onChange={onChange}
               />
               <small className="form-text">`Your Name</small>
@@ -139,7 +146,7 @@ const PersonalInfo = () => {
               />{" "}
               <small className="form-text">Upload a new picture</small>
             </div>
-            {personnal ? (
+            {personnal || toggle ? (
               <button
                 type="submit"
                 variant="contained"

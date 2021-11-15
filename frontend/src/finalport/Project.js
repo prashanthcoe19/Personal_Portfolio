@@ -20,6 +20,7 @@ const Project = () => {
                       <div class="text">{proj.title}</div>
                       <p>{proj.description}</p>
                       <p>Tools Used: {proj.tools[0]}</p>
+                      
                     </div>
                   </div>
                 );

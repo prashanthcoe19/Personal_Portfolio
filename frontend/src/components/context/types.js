@@ -1,0 +1,26 @@
+export const GET_PERSONAL = 'GET_PERSONAL';
+export const ADD_PERSONAL = 'ADD_PERSONAL';
+export const SET_PERSONAL = 'SET_PERSONAL';
+export const CLEAR_PERSONAL = 'CLEAR_PERSONAL';
+export const UPDATE_PERSONAL = 'UPDATE_PERSONAL';
+export const PERSONAL_ERROR = 'PERSONAL_ERROR';
+
+export const GET_EDUCATION = 'GET_EDUCATION';
+export const ADD_EDUCATION = 'ADD_EDUCATION';
+export const SET_EDUCATION = 'SET_EDUCATION';
+export const CLEAR_EDUCATION = 'CLEAR_EDUCATION';
+export const UPDATE_EDUCATION = 'UPDATE_EDUCATION';
+export const EDUCATION_ERROR = 'EDUCATION_ERROR';
+
+
+
+export const SET_ALERT = 'SET_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAIL = 'REGISTER_FAIL';
+export const USER_LOADED = 'USER_LOADED';
+export const AUTH_ERROR = 'AUTH_ERROR';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGOUT = 'LOGOUT';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';

@@ -43,9 +43,6 @@ const AuthState = (props) => {
 
   return (
     <div>
-      {/* {!isLoaded ? (
-        <h1>Loading ... </h1>
-      ) : ( */}
       <AuthContext.Provider
         value={{
           user,
