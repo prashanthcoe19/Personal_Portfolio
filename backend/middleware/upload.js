@@ -5,7 +5,7 @@ const storage = multer.diskStorage({
     cb(null, "../../PortFolio_Project/frontend/public/uploads/");
   },
   filename: function (req, file, cb) {
-    // console.log("Multer", file);
+    console.log("Multer", file);
     cb(
       null,
       file.fieldname + "-" + Date.now() + path.extname(file.originalname)

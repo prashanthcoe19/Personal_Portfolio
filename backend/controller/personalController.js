@@ -7,7 +7,7 @@ const createPersonalDetails = async (req, res) => {
   try {
     console.log(req.user.id);
     let personal = await Personal.find({ portfolioOf: req.user.id });
-    console.log(personal);
+    console.log(req.file);
     if (personal.length >= 1) {
       return res
         .status(400)
